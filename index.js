@@ -6,6 +6,7 @@ const Listing = require("./models/listing");
 const ejs = require("ejs");
 const path = require("path");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
 // mognoose connection
 async function main() {
@@ -26,8 +27,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(methodOverride("_method"));
+app.engine("ejs", ejsMate);
 
 // home route
 app.get("/", (req, res) => {

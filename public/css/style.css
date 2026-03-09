@@ -1,0 +1,194 @@
+body {
+    margin: 0;
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #171717;
+    background-color: #f7f7f5;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-brand,
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-brand {
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 16px;
+}
+
+.container {
+    width: min(1100px, 92vw);
+    margin: 0 auto;
+    padding: 28px 0 40px;
+    flex: 1;
+}
+
+.footer {
+    background-color: #fafafa;
+    border-top: 1px solid #e1e1e1;
+    padding: 16px 20px;
+}
+
+.footer-content {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.footer-links a,
+.footer-meta a {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer-links a:hover,
+.footer-meta a:hover {
+    text-decoration: underline;
+}
+
+.footer-meta {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .footer {
+        padding: 14px 16px;
+    }
+}
+
+.listings-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.listings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.listings-title {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+}
+
+.listings-subtitle {
+    margin: 8px 0 0;
+    color: #5f6368;
+    font-size: 0.95rem;
+}
+
+.create-listing-btn {
+    text-decoration: none;
+    background-color: #111;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.create-listing-btn:hover {
+    background-color: #2a2a2a;
+}
+
+.listing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.listing-card {
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 4px 18px rgba(20, 20, 20, 0.04);
+}
+
+.listing-card-image-link {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.listing-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #efefef;
+}
+
+.listing-card-title {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.listing-card-title a {
+    color: #151515;
+    text-decoration: none;
+}
+
+.listing-card-title a:hover {
+    text-decoration: underline;
+}
+
+.listing-card-meta {
+    margin: 0 0 10px;
+    color: #6a6a6a;
+    font-size: 0.9rem;
+}
+
+.listing-card-price {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 650;
+    color: #111;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: min(1100px, 90vw);
+        padding-top: 22px;
+    }
+
+    .listing-grid {
+        gap: 12px;
+    }
+}

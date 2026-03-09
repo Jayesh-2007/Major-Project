@@ -1,24 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout("layouts/boilerplatecode") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trip - for all</title>
-</head>
+<section class="listings-page">
+    <header class="listings-header">
+        <div>
+            <h1 class="listings-title">Listings</h1>
+            <p class="listings-subtitle">Find curated stays for work and travel.</p>
+        </div>
+        <a class="create-listing-btn" href="/listings/new">Create Listing</a>
+    </header>
 
-<body>
-    <h3>Listings</h3>
-    <form action="/listings/new" method="GET">
-        <button>create list</button>
-    </form>
-    <ul>
+    <div class="listing-grid">
         <% for(let listing of listings) { %>
-            <li>
-                <a href="/listings/<%= listing._id %>"><%= listing.title %></a>
-            </li>
-            <% } %>
-    </ul>
-</body>
-
-</html>
+            <article class="listing-card">
+                <a class="listing-card-image-link" href="/listings/<%= listing._id %>">
+                    <img
+                        class="listing-card-image"
+                        src="<%= listing.image %>"
+                        alt="<%= listing.title %>">
+                </a>
+                <h2 class="listing-card-title">
+                    <a href="/listings/<%= listing._id %>"><%= listing.title %></a>
+                </h2>
+                <p class="listing-card-meta">
+                    <%= listing.location || "Location not set" %>, <%= listing.country || "Country not set" %>
+                </p>
+                <p class="listing-card-price">
+                    <% if (listing.price != null) { %>
+                        &#8377; <%= listing.price.toLocaleString("en-IN") %>
+                    <% } else { %>
+                        Price on request
+                    <% } %>
+                </p>
+            </article>
+        <% } %>
+    </div>
+</section>
