@@ -1,29 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout("layouts/boilerplatecode") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderlust</title>
-</head>
+<section class="new-listing-page">
+    <header class="new-listing-header">
+        <h1 class="new-listing-title">Add New Listing</h1>
+        <p class="new-listing-subtitle">Share a place people will want to discover.</p>
+    </header>
 
-<body>
-    <h2>Add new Listing: </h2>
-    <form action="/listings" method="POST">
-        <input type="text" name="listing[title]" placeholder="Enter title">
-        <br /> <br />
-        <textarea name="listing[description]" placeholder="enter description"></textarea>
-        <br /> <br />
-        <input type="text" name="listing[image]" placeholder="Enter image URL">
-        <br /><br />
-        <input name="listing[price]" placeholder="Enter title" type="number">
-        <br /><br />
-        <input name="listing[country]" placeholder="Enter title" type="text">
-        <br /><br />
-        <input type="location" name="listing[location]" placeholder="Enter location">
-        <br /><br />
-        <button>submit</button>
+    <form class="listing-form" action="/listings" method="POST">
+        <div class="form-field">
+            <label for="title">Title</label>
+            <input id="title" type="text" name="listing[title]" placeholder="Enter title" required>
+        </div>
+
+        <div class="form-field">
+            <label for="description">Description</label>
+            <textarea id="description" name="listing[description]" placeholder="Enter description" rows="4" required></textarea>
+        </div>
+
+        <div class="form-field">
+            <label for="image">Image URL</label>
+            <input id="image" type="url" name="listing[image]" placeholder="https://example.com/image.jpg" required>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="price">Price (INR)</label>
+                <input id="price" name="listing[price]" placeholder="2500" type="number" min="0" required>
+            </div>
+
+            <div class="form-field">
+                <label for="country">Country</label>
+                <input id="country" name="listing[country]" placeholder="India" type="text" required>
+            </div>
+        </div>
+
+        <div class="form-field">
+            <label for="location">Location</label>
+            <input id="location" type="text" name="listing[location]" placeholder="Goa" required>
+        </div>
+
+        <button class="form-submit-btn" type="submit">Create Listing</button>
     </form>
-</body>
-
-</html>
+</section>

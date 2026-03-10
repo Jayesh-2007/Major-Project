@@ -1,29 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout("layouts/boilerplatecode") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderlust</title>
-</head>
+<section class="new-listing-page">
+    <header class="new-listing-header">
+        <h1 class="new-listing-title">Edit Listing</h1>
+        <p class="new-listing-subtitle">Update your listing details before publishing changes.</p>
+    </header>
 
-<body>
-    <h2>Add new Listing: </h2>
-    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
-        <input type="text" name="listing[title]" value="<%= listing.title %>">
-        <br /> <br />
-        <textarea name="listing[description]"><%= listing.description %></textarea>
-        <br /> <br />
-        <input type="text" name="listing[image]" value="<%= listing.image %>">
-        <br /><br />
-        <input name="listing[price]" value="<%= listing.price %>" type="number">
-        <br /><br />
-        <input name="listing[country]" value="<%= listing.country %>" type="text">
-        <br /><br />
-        <input type="location" name="listing[location]" value="<%= listing.location %>">
-        <br /><br />
-        <button>submit</button>
+    <form class="listing-form" method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+        <div class="form-field">
+            <label for="title">Title</label>
+            <input id="title" type="text" name="listing[title]" value="<%= listing.title %>" required>
+        </div>
+
+        <div class="form-field">
+            <label for="description">Description</label>
+            <textarea id="description" name="listing[description]" rows="4" required><%= listing.description %></textarea>
+        </div>
+
+        <div class="form-field">
+            <label for="image">Image URL</label>
+            <input id="image" type="url" name="listing[image]" value="<%= listing.image %>" required>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="price">Price (INR)</label>
+                <input id="price" name="listing[price]" value="<%= listing.price %>" type="number" min="0" required>
+            </div>
+
+            <div class="form-field">
+                <label for="country">Country</label>
+                <input id="country" name="listing[country]" value="<%= listing.country %>" type="text" required>
+            </div>
+        </div>
+
+        <div class="form-field">
+            <label for="location">Location</label>
+            <input id="location" type="text" name="listing[location]" value="<%= listing.location %>" required>
+        </div>
+
+        <button class="form-submit-btn" type="submit">Save Changes</button>
     </form>
-</body>
-
-</html>
+</section>
