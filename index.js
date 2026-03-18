@@ -7,6 +7,7 @@ const ejs = require("ejs");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync");
 
 // mognoose connection
 async function main() {
@@ -45,11 +46,13 @@ app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
-app.post("/listings", async (req, res) => {
-  const newListing = await new Listing(req.body.listing);
-  await newListing.save();
-  res.redirect("/listings");
-});
+app.post("/listings", wrapAsync(async (req, res) => {
+
+    const newListing = await new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+  }
+)); 
 
 // Show route
 app.get("/listings/:id", async (req, res) => {
@@ -72,11 +75,16 @@ app.put("/listings/:id", async (req, res) => {
 });
 
 // Delete route
-app.delete("/listings/:id", async(req, res)=>{
+app.delete("/listings/:id", async (req, res) => {
   let { id } = req.params;
   await Listing.findByIdAndDelete(id);
   res.redirect("/listings");
-})
+});
+
+// error handling middleware
+app.use((err, req, res, next) => {
+  res.send("Something went wrong");
+});
 
 app.listen(8080, () => {
   console.log("Server is running on port 8080");

@@ -1,4 +1,5 @@
 <% layout("layouts/boilerplatecode") %>
+<% const fallbackImage = "https://images.unsplash.com/photo-1517866184231-7ef94c2ea930?q=80&w=1247&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; %>
 
 <section class="new-listing-page">
     <header class="new-listing-header">
@@ -6,39 +7,63 @@
         <p class="new-listing-subtitle">Update your listing details before publishing changes.</p>
     </header>
 
-    <form class="listing-form" method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+    <form class="listing-form" method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate data-custom-validate>
+        <div class="form-alert" data-form-alert aria-live="polite" hidden></div>
+
         <div class="form-field">
             <label for="title">Title</label>
-            <input id="title" type="text" name="listing[title]" value="<%= listing.title %>" required>
+            <input id="title" type="text" name="listing[title]" value="<%= listing.title %>" required data-label="Title" data-error-target="title-error">
+            <p class="form-error" id="title-error" aria-live="polite"></p>
         </div>
 
         <div class="form-field">
             <label for="description">Description</label>
-            <textarea id="description" name="listing[description]" rows="4" required><%= listing.description %></textarea>
+            <textarea id="description" name="listing[description]" rows="4" required data-label="Description" data-error-target="description-error"><%= listing.description %></textarea>
+            <p class="form-error" id="description-error" aria-live="polite"></p>
+        </div>
+
+        <div class="form-field">
+            <label>Image Preview</label>
+            <div class="form-image-preview-card">
+                <img
+                    class="form-image-preview"
+                    src="<%= listing.image %>"
+                    alt="<%= listing.title %> preview"
+                    data-image-preview
+                    data-default-src="<%= fallbackImage %>"
+                >
+                <p class="form-image-caption">The preview updates as you change the image URL.</p>
+            </div>
         </div>
 
         <div class="form-field">
             <label for="image">Image URL</label>
-            <input id="image" type="url" name="listing[image]" value="<%= listing.image %>" required>
+            <input id="image" type="url" name="listing[image]" value="<%= listing.image %>" data-label="Image URL" data-error-target="image-error">
+            <p class="form-error" id="image-error" aria-live="polite"></p>
         </div>
 
         <div class="form-grid">
             <div class="form-field">
                 <label for="price">Price (INR)</label>
-                <input id="price" name="listing[price]" value="<%= listing.price %>" type="number" min="0" required>
+                <input id="price" name="listing[price]" value="<%= listing.price %>" type="number" min="0" required data-label="Price" data-error-target="price-error">
+                <p class="form-error" id="price-error" aria-live="polite"></p>
             </div>
 
             <div class="form-field">
                 <label for="country">Country</label>
-                <input id="country" name="listing[country]" value="<%= listing.country %>" type="text" required>
+                <input id="country" name="listing[country]" value="<%= listing.country %>" type="text" required data-label="Country" data-error-target="country-error">
+                <p class="form-error" id="country-error" aria-live="polite"></p>
             </div>
         </div>
 
         <div class="form-field">
             <label for="location">Location</label>
-            <input id="location" type="text" name="listing[location]" value="<%= listing.location %>" required>
+            <input id="location" type="text" name="listing[location]" value="<%= listing.location %>" required data-label="Location" data-error-target="location-error">
+            <p class="form-error" id="location-error" aria-live="polite"></p>
         </div>
 
         <button class="form-submit-btn" type="submit">Save Changes</button>
     </form>
 </section>
+
+<script src="/js/listing-form-validation.js"></script>

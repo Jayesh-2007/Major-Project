@@ -6,39 +6,49 @@
         <p class="new-listing-subtitle">Share a place people will want to discover.</p>
     </header>
 
-    <form class="listing-form" action="/listings" method="POST">
+    <form class="listing-form" action="/listings" method="POST" novalidate data-custom-validate>
+        <div class="form-alert" data-form-alert aria-live="polite" hidden></div>
+
         <div class="form-field">
             <label for="title">Title</label>
-            <input id="title" type="text" name="listing[title]" placeholder="Enter title" required>
+            <input id="title" type="text" name="listing[title]" placeholder="Enter title" required data-label="Title" data-error-target="title-error">
+            <p class="form-error" id="title-error" aria-live="polite"></p>
         </div>
 
         <div class="form-field">
             <label for="description">Description</label>
-            <textarea id="description" name="listing[description]" placeholder="Enter description" rows="4" required></textarea>
+            <textarea id="description" name="listing[description]" placeholder="Enter description" rows="4" required data-label="Description" data-error-target="description-error"></textarea>
+            <p class="form-error" id="description-error" aria-live="polite"></p>
         </div>
 
         <div class="form-field">
             <label for="image">Image URL</label>
-            <input id="image" type="url" name="listing[image]" placeholder="https://example.com/image.jpg" required>
+            <input id="image" type="url" name="listing[image]" placeholder="https://example.com/image.jpg" data-label="Image URL" data-error-target="image-error">
+            <p class="form-error" id="image-error" aria-live="polite"></p>
         </div>
 
         <div class="form-grid">
             <div class="form-field">
                 <label for="price">Price (INR)</label>
-                <input id="price" name="listing[price]" placeholder="2500" type="number" min="0" required>
+                <input id="price" name="listing[price]" placeholder="2500" type="number" min="0" required data-label="Price" data-error-target="price-error">
+                <p class="form-error" id="price-error" aria-live="polite"></p>
             </div>
 
             <div class="form-field">
                 <label for="country">Country</label>
-                <input id="country" name="listing[country]" placeholder="India" type="text" required>
+                <input id="country" name="listing[country]" placeholder="India" type="text" required data-label="Country" data-error-target="country-error">
+                <p class="form-error" id="country-error" aria-live="polite"></p>
             </div>
         </div>
 
         <div class="form-field">
             <label for="location">Location</label>
-            <input id="location" type="text" name="listing[location]" placeholder="Goa" required>
+            <input id="location" type="text" name="listing[location]" placeholder="Goa" required data-label="Location" data-error-target="location-error">
+            <p class="form-error" id="location-error" aria-live="polite"></p>
         </div>
 
         <button class="form-submit-btn" type="submit">Create Listing</button>
     </form>
 </section>
+
+<script src="/js/listing-form-validation.js"></script>
