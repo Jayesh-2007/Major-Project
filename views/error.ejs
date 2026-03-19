@@ -1,0 +1,26 @@
+<% layout("layouts/boilerplatecode") %>
+
+<section class="error-page">
+    <div class="error-shell">
+        <div class="error-badge">Error <%= statusCode %></div>
+
+        <h1 class="error-title">
+            <%= statusCode === 404 ? "We couldn't find that page." : "Something interrupted the trip." %>
+        </h1>
+
+        <p class="error-message"><%= message %></p>
+
+        <p class="error-hint">
+            <% if (statusCode === 404) { %>
+                The link may be broken, or the page may have moved.
+            <% } else { %>
+                The request did not complete successfully. Please try again or return to the listings page.
+            <% } %>
+        </p>
+
+        <div class="error-actions">
+            <a class="create-listing-btn" href="/listings">Back to Listings</a>
+            <a class="error-secondary-link" href="/listings/new">Create a Listing</a>
+        </div>
+    </div>
+</section>
