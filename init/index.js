@@ -1,19 +1,12 @@
 const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
-const MONGO_URL = "mongodb://localhost:27017/listingsdb";
+const MONGO_URL =
+  process.env.MONGO_URL || "mongodb://127.0.0.1:27017/listingsdb";
 
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
-
-main()
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Error connecting to MongoDB", err);
-  });
 
 const initDB = async () => {
   await Listing.deleteMany({});
@@ -21,4 +14,12 @@ const initDB = async () => {
   console.log("Database initialized with sample data");
 };
 
-initDB();
+main()
+  .then(async () => {
+    console.log("Connected to MongoDB");
+    await initDB();
+    await mongoose.connection.close();
+  })
+  .catch((err) => {
+    console.log("Error connecting to MongoDB", err);
+  });

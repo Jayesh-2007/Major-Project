@@ -1,32 +1,119 @@
 <% layout("layouts/boilerplatecode") %>
 
-<section class="listing-detail-page">
-    <article class="listing-detail-card">
-        <img class="listing-detail-image" src="<%= listing.image %>" alt="<%= listing.title %>">
+    <section class="listing-detail-page">
+        <article class="listing-detail-card">
+            <img class="listing-detail-image" src="<%= listing.image %>" alt="<%= listing.title %>">
 
-        <div class="listing-detail-content">
-            <h1 class="listing-detail-title"><%= listing.title %></h1>
+            <div class="listing-detail-content">
+                <h1 class="listing-detail-title">
+                    <%= listing.title %>
+                </h1>
 
-            <p class="listing-detail-location">
-                <%= listing.location || "Location not set" %>, <%= listing.country || "Country not set" %>
-            </p>
+                <p class="listing-detail-location">
+                    <%= listing.location || "Location not set" %>, <%= listing.country || "Country not set" %>
+                </p>
 
-            <p class="listing-detail-price">
-                <% if (listing.price != null) { %>
-                    &#8377; <%= listing.price.toLocaleString("en-IN") %>
-                <% } else { %>
-                    Price on request
-                <% } %>
-            </p>
+                <p class="listing-detail-price">
+                    <% if (listing.price !=null) { %>
+                        &#8377; <%= listing.price.toLocaleString("en-IN") %>
+                            <% } else { %>
+                                Price on request
+                                <% } %>
+                </p>
 
-            <p class="listing-detail-description"><%= listing.description %></p>
+                <p class="listing-detail-description">
+                    <%= listing.description %>
+                </p>
 
-            <div class="listing-detail-actions">
-                <a class="create-listing-btn" href="/listings/<%= listing._id %>/edit">Edit Listing</a>
-                <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-                    <button class="delete-listing-btn" type="submit">Delete</button>
-                </form>
+                <div class="listing-detail-actions">
+                    <a class="create-listing-btn" href="/listings/<%= listing._id %>/edit">Edit Listing</a>
+                    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                        <button class="delete-listing-btn" type="submit">Delete</button>
+                    </form>
+                </div>
             </div>
+        </article>
+    </section>
+
+    <!-- review section  -->
+    <section class="review-section">
+        <div class="review-section-header">
+            <p class="review-section-kicker">Guest Feedback</p>
+            <h2 class="review-section-title">Leave a Review</h2>
+            <p class="review-section-subtitle">Share what stood out so future guests can book with confidence.</p>
         </div>
-    </article>
-</section>
+
+        <form class="review-form" action="/listings/<%= listing._id %>/review" method="POST">
+            <div class="form-field review-rating-field">
+                <div class="review-rating-header">
+                    <label for="rating">Rating</label>
+                    <span class="review-rating-scale">1 to 5</span>
+                </div>
+                <input class="review-range-input" type="range" min="1" max="5" id="rating" name="review[rating]">
+                <div class="review-rating-legend">
+                    <span>Poor</span>
+                    <span>Excellent</span>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="comment">Comment</label>
+                <textarea class="review-comment-input" name="review[comment]" id="comment" rows="6"
+                    placeholder="What did you enjoy most about this place?" required></textarea>
+            </div>
+
+
+
+            <button class="form-submit-btn review-submit-btn">Submit Review</button>
+        </form>
+    </section>
+
+    <section class="review-list-section">
+        <div class="review-list-header">
+            <p class="review-list-kicker">Recent Stays</p>
+            <h3 class="review-list-title">All Reviews</h3>
+            <p class="review-list-subtitle">A quick look at what past guests noticed most.</p>
+        </div>
+
+        <% if (listing.reviews.length) { %>
+            <div class="review-card-grid">
+                <% for (const review of listing.reviews) { %>
+                    <article class="review-card">
+                        <div class="review-card-top">
+                            <div>
+                                <p class="review-card-label">Guest Review</p>
+                                <p class="review-card-rating">
+                                    <%= review.rating %>/5
+                                </p>
+                            </div>
+                            <span class="review-card-stars" aria-label="Rated <%= review.rating %> out of 5">
+                                <% for (let i=0; i < review.rating; i++) { %>&#9733;<% } %>
+                                        <% for (let i=0; i < 5 - review.rating; i++) { %>&#9734;<% } %>
+                            </span>
+                        </div>
+                        <p class="review-card-comment">
+                            <%= review.comment %>
+                        </p>
+                        <p class="review-card-date">
+                            <% if (review.createdAt) { %>
+                                Shared on <%= new Date(review.createdAt).toLocaleDateString("en-IN", { day: "numeric" ,
+                                    month: "short" , year: "numeric" }) %>
+                                    <% } else { %>
+                                        Shared by a recent guest
+                                        <% } %>
+                        </p>
+                        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                            method="POST">
+                            <button>delete</button>
+                        </form>
+                    </article>
+                    <% } %>
+                        
+            </div>
+            <% } else { %>
+                <div class="review-empty-state">
+                    <p class="review-empty-title">No reviews yet</p>
+                    <p class="review-empty-text">Be the first guest to share how this stay felt and what stood out.</p>
+                </div>
+                <% } %>
+    </section>

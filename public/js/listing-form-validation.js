@@ -40,16 +40,36 @@
             }
         }
 
+        if (field.id === "rating") {
+            const rating = Number(field.value);
+            const min = Number(field.min || 1);
+            const max = Number(field.max || 5);
+
+            if (Number.isNaN(rating)) {
+                return "Rating must be a valid number.";
+            }
+
+            if (rating < min || rating > max) {
+                return "Rating must stay between " + min + " and " + max + ".";
+            }
+        }
+
         return "";
     }
 
     function showFieldError(field, message) {
         const errorId = field.dataset.errorTarget;
         const errorElement = document.getElementById(errorId);
+        const fieldWrapper = field.closest(".form-field");
 
         field.classList.toggle("input-error", Boolean(message));
+        if (fieldWrapper) {
+            fieldWrapper.classList.toggle("field-error", Boolean(message));
+        }
         field.setAttribute("aria-invalid", message ? "true" : "false");
-        field.setAttribute("aria-describedby", errorId);
+        if (errorId) {
+            field.setAttribute("aria-describedby", errorId);
+        }
 
         if (errorElement) {
             errorElement.textContent = message;
