@@ -43,7 +43,7 @@
             <p class="review-section-subtitle">Share what stood out so future guests can book with confidence.</p>
         </div>
 
-        <form class="review-form" action="/listings/<%= listing._id %>/review" method="POST">
+        <form class="review-form" action="/listings/<%= listing._id %>/reviews" method="POST">
             <div class="form-field review-rating-field">
                 <div class="review-rating-header">
                     <label for="rating">Rating</label>
@@ -108,7 +108,7 @@
                         </form>
                     </article>
                     <% } %>
-                        
+
             </div>
             <% } else { %>
                 <div class="review-empty-state">

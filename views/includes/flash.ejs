@@ -1,0 +1,27 @@
+<% if (success && success.length) { %>
+    <section class="flash-stack" aria-live="polite" aria-atomic="true">
+        <% success.forEach((message) => { %>
+            <div class="flash-message flash-message-success" role="status">
+                <span class="flash-message-badge">Success</span>
+                <p class="flash-message-text"><%= message %></p>
+                <button class="flash-dismiss-btn" type="button" aria-label="Dismiss message" data-flash-dismiss>
+                    &times;
+                </button>
+            </div>
+        <% }) %>
+    </section>
+<% } %>
+
+<% if (error && error.length) { %>
+    <section class="flash-stack" aria-live="assertive" aria-atomic="true">
+        <% error.forEach((message) => { %>
+            <div class="flash-message flash-message-error" role="alert">
+                <span class="flash-message-badge">Error</span>
+                <p class="flash-message-text"><%= message %></p>
+                <button class="flash-dismiss-btn" type="button" aria-label="Dismiss message" data-flash-dismiss>
+                    &times;
+                </button>
+            </div>
+        <% }) %>
+    </section>
+<% } %>
