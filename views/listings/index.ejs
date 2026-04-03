@@ -1,37 +1,37 @@
 <% layout("layouts/boilerplatecode") %>
+    <%= success%>
 
-<section class="listings-page">
-    <header class="listings-header">
-        <div>
-            <h1 class="listings-title">Listings</h1>
-            <p class="listings-subtitle">Find curated stays for work and travel.</p>
-        </div>
-        <a class="create-listing-btn" href="/listings/new">Create Listing</a>
-    </header>
+        <section class="listings-page">
+            <header class="listings-header">
+                <div>
+                    <h1 class="listings-title">Listings</h1>
+                    <p class="listings-subtitle">Find curated stays for work and travel.</p>
+                </div>
+                <a class="create-listing-btn" href="/listings/new">Create Listing</a>
+            </header>
 
-    <div class="listing-grid">
-        <% for(let listing of listings) { %>
-            <article class="listing-card">
-                <a class="listing-card-image-link" href="/listings/<%= listing._id %>">
-                    <img
-                        class="listing-card-image"
-                        src="<%= listing.image %>"
-                        alt="<%= listing.title %>">
-                </a>
-                <h2 class="listing-card-title">
-                    <a href="/listings/<%= listing._id %>"><%= listing.title %></a>
-                </h2>
-                <p class="listing-card-meta">
-                    <%= listing.location || "Location not set" %>, <%= listing.country || "Country not set" %>
-                </p>
-                <p class="listing-card-price">
-                    <% if (listing.price != null) { %>
-                        &#8377; <%= listing.price.toLocaleString("en-IN") %>
-                    <% } else { %>
-                        Price on request
+            <div class="listing-grid">
+                <% for(let listing of listings) { %>
+                    <article class="listing-card">
+                        <a class="listing-card-image-link" href="/listings/<%= listing._id %>">
+                            <img class="listing-card-image" src="<%= listing.image %>" alt="<%= listing.title %>">
+                        </a>
+                        <h2 class="listing-card-title">
+                            <a href="/listings/<%= listing._id %>">
+                                <%= listing.title %>
+                            </a>
+                        </h2>
+                        <p class="listing-card-meta">
+                            <%= listing.location || "Location not set" %>, <%= listing.country || "Country not set" %>
+                        </p>
+                        <p class="listing-card-price">
+                            <% if (listing.price !=null) { %>
+                                &#8377; <%= listing.price.toLocaleString("en-IN") %>
+                                    <% } else { %>
+                                        Price on request
+                                        <% } %>
+                        </p>
+                    </article>
                     <% } %>
-                </p>
-            </article>
-        <% } %>
-    </div>
-</section>
+            </div>
+        </section>

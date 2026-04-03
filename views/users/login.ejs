@@ -1,0 +1,39 @@
+<% layout("layouts/boilerplatecode") %>
+
+<section class="auth-page">
+    <div class="auth-shell">
+        <div class="auth-copy">
+            <p class="auth-kicker">Welcome Back</p>
+            <h1 class="auth-title">Log in to WanderLust</h1>
+            <p class="auth-subtitle">Access your saved listings, reviews, and travel plans in one place.</p>
+        </div>
+
+        <form class="listing-form auth-form" action="/login" method="POST">
+            <div class="form-field">
+                <label for="username">Username</label>
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button class="form-submit-btn auth-submit-btn" type="submit">Log In</button>
+        </form>
+    </div>
+</section>
