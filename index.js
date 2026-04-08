@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const MONGO_URL = "mongodb://localhost:27017/listingsdb";
+const buildMongoUrl = require("./utils/mongoUrl");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -18,15 +18,19 @@ const userRouter = require("./routes/user.js");
 
 // mognoose connection
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(buildMongoUrl());
 }
 
 main()
   .then(() => {
     console.log("Connected to MongoDB");
+    app.listen(8080, () => {
+      console.log("Server is running on port 8080");
+    });
   })
   .catch((err) => {
     console.log("Error connecting to MongoDB", err);
+    process.exit(1);
   });
 
 // set view engine
@@ -62,6 +66,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
   next();
 });
 
@@ -98,6 +103,3 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8080, () => {
-  console.log("Server is running on port 8080");
-});

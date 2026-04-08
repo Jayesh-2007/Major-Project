@@ -2,7 +2,11 @@
     <div class="footer-content">
         <div class="footer-links">
             <a href="/listings">Browse Listings</a>
-            <a href="/listings/new">Host a Place</a>
+            <% if (currentUser) { %>
+                <a href="/listings/new">Host a Place</a>
+            <% } else { %>
+                <a href="/login">Log In to Host</a>
+            <% } %>
             <a href="#">Help Center</a>
         </div>
         <p class="footer-meta">

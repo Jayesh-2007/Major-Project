@@ -20,7 +20,11 @@
 
         <div class="error-actions">
             <a class="create-listing-btn" href="/listings">Back to Listings</a>
-            <a class="error-secondary-link" href="/listings/new">Create a Listing</a>
+            <% if (currentUser) { %>
+                <a class="error-secondary-link" href="/listings/new">Create a Listing</a>
+            <% } else { %>
+                <a class="error-secondary-link" href="/login">Log In to Create</a>
+            <% } %>
         </div>
     </div>
 </section>

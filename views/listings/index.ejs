@@ -7,7 +7,11 @@
                     <h1 class="listings-title">Listings</h1>
                     <p class="listings-subtitle">Find curated stays for work and travel.</p>
                 </div>
-                <a class="create-listing-btn" href="/listings/new">Create Listing</a>
+                <% if (currentUser) { %>
+                    <a class="create-listing-btn" href="/listings/new">Create Listing</a>
+                <% } else { %>
+                    <a class="create-listing-btn" href="/login">Log In to Create</a>
+                <% } %>
             </header>
 
             <div class="listing-grid">

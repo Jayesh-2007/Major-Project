@@ -10,7 +10,13 @@
 
     <div class="nav-links nav-menu">
         <a href="/listings">Home</a>
-        <a href="/listings/new">New Listing</a>
-        <a href="/signup">Sign Up</a>
+
+        <% if (!currentUser) { %>
+            <a href="/signup">Sign Up</a>
+            <a href="/login" class="nav-link-accent">Log In</a>
+        <% } else { %>
+            <a href="/listings/new">New Listing</a>
+            <a href="/logout" class="nav-link-accent">Log Out</a>
+        <% } %>
     </div>
 </nav>
