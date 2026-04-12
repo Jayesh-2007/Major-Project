@@ -36,6 +36,10 @@ main()
 // set view engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(
+  "/vendor/starability",
+  express.static(path.join(__dirname, "node_modules", "starability", "starability-css"))
+);
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

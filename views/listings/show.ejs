@@ -42,7 +42,7 @@
 
     <!-- review section  -->
     <% if(currentUser) { %>
-         <section class="review-section">
+        <section class="review-section">
             <div class="review-section-header">
                 <p class="review-section-kicker">Guest Feedback</p>
                 <h2 class="review-section-title">Leave a Review</h2>
@@ -89,7 +89,6 @@
                                 <div class="review-card-top">
                                     <div>
                                         <p class="review-card-label">Guest Review</p>
-                                        <p class="review-card-label">By <%= review.author?.username || "Unknown guest" %></p>
                                         <p class="review-card-rating">
                                             <%= review.rating %>/5
                                         </p>
@@ -110,12 +109,10 @@
                                                 Shared by a recent guest
                                                 <% } %>
                                 </p>
-                                <% if (currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
-                                    <form class="review-delete-form" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                                        method="POST">
-                                        <button class="review-delete-btn" type="submit">Delete review</button>
-                                    </form>
-                                <% } %>
+                                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                    method="POST">
+                                    <button>delete</button>
+                                </form>
                             </article>
                             <% } %>
 
