@@ -4,6 +4,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    line-height: 1.5;
     color: #171717;
     background-color: #f7f7f5;
 }
@@ -45,6 +46,12 @@ body {
 
 .nav-links a:hover {
     background-color: rgba(255, 255, 255, 0.08);
+}
+
+.nav-brand:focus-visible,
+.nav-links a:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 3px;
 }
 
 .nav-link-accent {
@@ -244,18 +251,29 @@ body {
 }
 
 .create-listing-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     background-color: #111;
     color: #fff;
+    min-height: 42px;
     padding: 10px 14px;
     border-radius: 10px;
     font-size: 0.92rem;
     font-weight: 600;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .create-listing-btn:hover {
     background-color: #2a2a2a;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(17, 17, 17, 0.12);
+}
+
+.create-listing-btn:focus-visible {
+    outline: 3px solid rgba(17, 17, 17, 0.18);
+    outline-offset: 3px;
 }
 
 .listing-grid {
@@ -265,16 +283,29 @@ body {
 }
 
 .listing-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     background-color: #fff;
     border: 1px solid #e8e8e8;
     border-radius: 14px;
     padding: 12px;
     box-shadow: 0 4px 18px rgba(20, 20, 20, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.listing-card:hover,
+.listing-card:focus-within {
+    transform: translateY(-2px);
+    border-color: #d8d8d8;
+    box-shadow: 0 12px 28px rgba(20, 20, 20, 0.08);
 }
 
 .listing-card-image-link {
     display: block;
     margin-bottom: 12px;
+    overflow: hidden;
+    border-radius: 10px;
 }
 
 .listing-card-image {
@@ -283,6 +314,12 @@ body {
     object-fit: cover;
     border-radius: 10px;
     background-color: #efefef;
+    transition: transform 0.25s ease;
+}
+
+.listing-card:hover .listing-card-image,
+.listing-card-image-link:focus-visible .listing-card-image {
+    transform: scale(1.03);
 }
 
 .listing-card-title {
@@ -299,6 +336,12 @@ body {
 
 .listing-card-title a:hover {
     text-decoration: underline;
+}
+
+.listing-card-image-link:focus-visible,
+.listing-card-title a:focus-visible {
+    outline: 3px solid rgba(17, 17, 17, 0.12);
+    outline-offset: 3px;
 }
 
 .listing-card-meta {
@@ -396,7 +439,7 @@ body {
 }
 
 .new-listing-header {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .new-listing-title {
@@ -415,12 +458,12 @@ body {
 .listing-form {
     background-color: #fff;
     border: 1px solid #e8e8e8;
-    border-radius: 14px;
-    padding: 18px;
-    box-shadow: 0 4px 18px rgba(20, 20, 20, 0.04);
+    border-radius: 22px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(20, 20, 20, 0.05);
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
 }
 
 .form-field {
@@ -439,16 +482,18 @@ body {
 .form-field textarea {
     font: inherit;
     border: 1px solid #d5d5d5;
-    border-radius: 10px;
-    padding: 10px 12px;
+    border-radius: 12px;
+    padding: 12px 14px;
     background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .form-field input:focus,
 .form-field textarea:focus {
     outline: none;
     border-color: #222;
-    box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.08);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(34, 34, 34, 0.08);
 }
 
 .form-field textarea {
@@ -514,22 +559,25 @@ body {
     border: 0;
     background-color: #111;
     color: #fff;
-    border-radius: 10px;
-    padding: 11px 14px;
+    border-radius: 12px;
+    padding: 12px 16px;
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     align-self: flex-start;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-submit-btn:hover {
     background-color: #2a2a2a;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 20px rgba(17, 17, 17, 0.12);
 }
 
 @media (max-width: 768px) {
     .listing-form {
-        padding: 14px;
+        padding: 16px;
+        border-radius: 18px;
     }
 
     .form-grid {
@@ -579,6 +627,13 @@ body {
     font-size: 0.95rem;
 }
 
+.listing-detail-owner {
+    margin: 10px 0 0;
+    color: #5f6368;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
 .listing-detail-price {
     margin: 10px 0 0;
     font-size: 1.05rem;
@@ -609,15 +664,23 @@ body {
     border-radius: 10px;
     background-color: #c53b3b;
     color: #fff;
+    min-height: 42px;
     padding: 10px 14px;
     font-size: 0.92rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .delete-listing-btn:hover {
     background-color: #a82f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(168, 47, 47, 0.15);
+}
+
+.delete-listing-btn:focus-visible {
+    outline: 3px solid rgba(197, 59, 59, 0.18);
+    outline-offset: 3px;
 }
 
 @media (max-width: 768px) {
@@ -803,6 +866,41 @@ body {
     background-color: #fff;
 }
 
+.review-range-input {
+    width: 100%;
+    height: 6px;
+    margin: 14px 0 10px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #d8d0c6 0%, #b99c77 100%);
+    appearance: none;
+}
+
+.review-range-input::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #111;
+    box-shadow: 0 2px 8px rgba(17, 17, 17, 0.18);
+    appearance: none;
+    cursor: pointer;
+}
+
+.review-range-input::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #111;
+    box-shadow: 0 2px 8px rgba(17, 17, 17, 0.18);
+    cursor: pointer;
+}
+
+.review-range-input:focus-visible {
+    outline: 3px solid rgba(17, 17, 17, 0.12);
+    outline-offset: 6px;
+}
+
 .review-list-section {
     width: 100%;
     max-width: 860px;
@@ -896,6 +994,7 @@ body {
     line-height: 1.7;
     font-size: 0.95rem;
     flex: 1;
+    word-break: break-word;
 }
 
 .review-card-date {
@@ -908,6 +1007,7 @@ body {
 
 .review-delete-form {
     margin: 0;
+    margin-top: auto;
 }
 
 .review-delete-btn {
@@ -1088,6 +1188,11 @@ body {
     background-color: #fff;
 }
 
+.error-secondary-link:focus-visible {
+    outline: 3px solid rgba(67, 55, 47, 0.14);
+    outline-offset: 3px;
+}
+
 @media (max-width: 768px) {
     .error-page {
         min-height: auto;
@@ -1126,9 +1231,7 @@ body {
     padding: clamp(24px, 4vw, 34px);
     border: 1px solid #e5e7eb;
     border-radius: 24px;
-    background:
-        radial-gradient(circle at top right, rgba(214, 228, 255, 0.45), transparent 30%),
-        linear-gradient(135deg, #ffffff 0%, #fcfcfd 54%, #f6f8fb 100%);
+    background-color: #fff;
     box-shadow: 0 20px 45px rgba(30, 41, 59, 0.08);
 }
 
@@ -1163,10 +1266,20 @@ body {
 
 .auth-form {
     gap: 16px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
 }
 
 .auth-submit-btn {
     min-width: 140px;
+}
+
+.form-submit-btn:focus-visible {
+    outline: 3px solid rgba(17, 17, 17, 0.18);
+    outline-offset: 3px;
 }
 
 @media (max-width: 768px) {

@@ -1,54 +1,194 @@
 <% layout("layouts/boilerplatecode") %>
 
-<section class="new-listing-page">
-    <header class="new-listing-header">
-        <h1 class="new-listing-title">Add New Listing</h1>
-        <p class="new-listing-subtitle">Share a place people will want to discover.</p>
-    </header>
+    <style>
+        .upload-image-field {
+            gap: 10px;
+        }
 
-    <form class="listing-form" action="/listings" method="POST" novalidate data-custom-validate>
-        <div class="form-alert" data-form-alert aria-live="polite" hidden></div>
+        .upload-image-panel {
+            border: 1px solid #e6dfd7;
+            border-radius: 14px;
+            padding: 16px;
+            background-color: #fff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
 
-        <div class="form-field">
-            <label for="title">Title</label>
-            <input id="title" type="text" name="listing[title]" placeholder="Enter title" required data-label="Title" data-error-target="title-error">
-            <p class="form-error" id="title-error" aria-live="polite"></p>
-        </div>
+        .upload-image-panel:focus-within {
+            border-color: #d0873a;
+            box-shadow: 0 0 0 4px rgba(208, 135, 58, 0.12);
+        }
 
-        <div class="form-field">
-            <label for="description">Description</label>
-            <textarea id="description" name="listing[description]" placeholder="Enter description" rows="4" required data-label="Description" data-error-target="description-error"></textarea>
-            <p class="form-error" id="description-error" aria-live="polite"></p>
-        </div>
+        .upload-image-panel.has-file {
+            border-color: #d7c1a6;
+            background-color: #fffaf4;
+        }
 
-        <div class="form-field">
-            <label for="image">Image URL</label>
-            <input id="image" type="url" name="listing[image]" placeholder="https://example.com/image.jpg" data-label="Image URL" data-error-target="image-error">
-            <p class="form-error" id="image-error" aria-live="polite"></p>
-        </div>
+        .upload-image-title {
+            margin: 0 0 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1f1f1f;
+        }
 
-        <div class="form-grid">
+        .upload-image-hint {
+            margin: 0 0 14px;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        .upload-image-control {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e3dfdb;
+            border-radius: 12px;
+            background-color: #fff;
+        }
+
+        .upload-image-field.field-error .upload-image-panel {
+            border-color: #e4b4ae;
+            background-color: #fff3f1;
+        }
+
+        .upload-image-field.field-error .upload-image-control {
+            border-color: #df6b5f;
+        }
+
+        .upload-image-field.field-error .upload-image-button {
+            background-color: #b74437;
+        }
+
+        .upload-image-input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-image-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            padding: 10px 14px;
+            background-color: #111;
+            color: #fff;
+            font-size: 0.92rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .upload-image-panel:focus-within .upload-image-button {
+            background-color: #2a2a2a;
+        }
+
+        .upload-image-filename {
+            min-width: 0;
+            flex: 1;
+            color: #5f5a54;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .upload-image-note {
+            margin: 10px 0 0;
+            font-size: 0.82rem;
+            color: #7a6f67;
+        }
+
+        @media (max-width: 768px) {
+            .upload-image-panel {
+                padding: 14px;
+            }
+
+            .upload-image-control {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .upload-image-button {
+                width: 100%;
+            }
+
+            .upload-image-filename {
+                width: 100%;
+                white-space: normal;
+            }
+        }
+    </style>
+
+    <section class="new-listing-page">
+        <header class="new-listing-header">
+            <h1 class="new-listing-title">Add New Listing</h1>
+            <p class="new-listing-subtitle">Share a place people will want to discover.</p>
+        </header>
+
+        <form class="listing-form" action="/listings" method="POST" novalidate data-custom-validate
+            enctype="multipart/form-data">
+            <div class="form-alert" data-form-alert aria-live="polite" hidden></div>
+
             <div class="form-field">
-                <label for="price">Price (INR)</label>
-                <input id="price" name="listing[price]" placeholder="2500" type="number" min="0" required data-label="Price" data-error-target="price-error">
-                <p class="form-error" id="price-error" aria-live="polite"></p>
+                <label for="title">Title</label>
+                <input id="title" type="text" name="listing[title]" placeholder="Enter title" required
+                    data-label="Title" data-error-target="title-error">
+                <p class="form-error" id="title-error" aria-live="polite"></p>
             </div>
 
             <div class="form-field">
-                <label for="country">Country</label>
-                <input id="country" name="listing[country]" placeholder="India" type="text" required data-label="Country" data-error-target="country-error">
-                <p class="form-error" id="country-error" aria-live="polite"></p>
+                <label for="description">Description</label>
+                <textarea id="description" name="listing[description]" placeholder="Enter description" rows="4" required
+                    data-label="Description" data-error-target="description-error"></textarea>
+                <p class="form-error" id="description-error" aria-live="polite"></p>
             </div>
-        </div>
 
-        <div class="form-field">
-            <label for="location">Location</label>
-            <input id="location" type="text" name="listing[location]" placeholder="Goa" required data-label="Location" data-error-target="location-error">
-            <p class="form-error" id="location-error" aria-live="polite"></p>
-        </div>
+            <div class="form-field upload-image-field">
+                <label for="image">Upload Image</label>
+                <div class="upload-image-panel">
+                    <p class="upload-image-title">Choose a cover photo</p>
+                    <p class="upload-image-hint">Add one clear image for your listing. A wide photo works best and keeps the form easy to scan.</p>
+                    <label class="upload-image-control" for="image">
+                        <span class="upload-image-button">Choose Image</span>
+                        <span class="upload-image-filename" id="image-file-name">No file selected</span>
+                        <input id="image" class="upload-image-input" type="file" name="listing[image]" accept="image/*"
+                            data-label="Image Upload" data-error-target="image-error" data-file-name-target="image-file-name">
+                    </label>
+                    <p class="upload-image-note">Best results: JPG, PNG, or WEBP with a wide landscape layout.</p>
+                </div>
+                <p class="form-error" id="image-error" aria-live="polite"></p>
+            </div>
 
-        <button class="form-submit-btn" type="submit">Create Listing</button>
-    </form>
-</section>
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="price">Price (INR)</label>
+                    <input id="price" name="listing[price]" placeholder="2500" type="number" min="0" required
+                        data-label="Price" data-error-target="price-error">
+                    <p class="form-error" id="price-error" aria-live="polite"></p>
+                </div>
 
-<script src="/js/listing-form-validation.js"></script>
+                <div class="form-field">
+                    <label for="country">Country</label>
+                    <input id="country" name="listing[country]" placeholder="India" type="text" required
+                        data-label="Country" data-error-target="country-error">
+                    <p class="form-error" id="country-error" aria-live="polite"></p>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="location">Location</label>
+                <input id="location" type="text" name="listing[location]" placeholder="Goa" required
+                    data-label="Location" data-error-target="location-error">
+                <p class="form-error" id="location-error" aria-live="polite"></p>
+            </div>
+
+            <button class="form-submit-btn" type="submit">Create Listing</button>
+        </form>
+    </section>
+
+    <script src="/js/listing-form-validation.js"></script>

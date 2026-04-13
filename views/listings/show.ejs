@@ -2,7 +2,7 @@
 
     <section class="listing-detail-page">
         <article class="listing-detail-card">
-            <img class="listing-detail-image" src="<%= listing.image %>" alt="<%= listing.title %>">
+            <img class="listing-detail-image" src="<%= listing.image.url %>" alt="<%= listing.title %>">
 
             <div class="listing-detail-content">
                 <h1 class="listing-detail-title">
@@ -109,9 +109,9 @@
                                                 Shared by a recent guest
                                                 <% } %>
                                 </p>
-                                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                <form class="review-delete-form" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
                                     method="POST">
-                                    <button>delete</button>
+                                    <button class="review-delete-btn" type="submit">Delete Review</button>
                                 </form>
                             </article>
                             <% } %>

@@ -6,6 +6,10 @@
     }
 
     function getTrimmedValue(field) {
+        if (field.type === "file") {
+            return field.files && field.files.length ? field.files[0].name.trim() : "";
+        }
+
         return field.value.trim();
     }
 
@@ -17,7 +21,7 @@
             return field.hasAttribute("required") ? label + " is required." : "";
         }
 
-        if (field.id === "image") {
+        if (field.id === "image" && field.type !== "file") {
             try {
                 const url = new URL(value);
                 if (url.protocol !== "http:" && url.protocol !== "https:") {
@@ -25,6 +29,15 @@
                 }
             } catch (error) {
                 return "Enter a valid image URL.";
+            }
+        }
+
+        if (field.id === "image" && field.type === "file" && field.files && field.files.length) {
+            const file = field.files[0];
+            const validTypes = ["image/jpeg", "image/png", "image/webp"];
+
+            if (!validTypes.includes(file.type)) {
+                return "Upload a JPG, PNG, or WEBP image.";
             }
         }
 
@@ -86,7 +99,7 @@
         const imageField = form.querySelector("#image");
         const preview = form.querySelector("[data-image-preview]");
 
-        if (!imageField || !preview) {
+        if (!imageField || !preview || imageField.type === "file") {
             return;
         }
 
@@ -100,6 +113,26 @@
         }
 
         preview.src = value;
+    }
+
+    function updateFileSelection(field) {
+        if (field.type !== "file") {
+            return;
+        }
+
+        const fileName = field.dataset.fileNameTarget
+            ? document.getElementById(field.dataset.fileNameTarget)
+            : null;
+        const panel = field.closest(".upload-image-panel");
+        const hasFile = Boolean(field.files && field.files.length);
+
+        if (panel) {
+            panel.classList.toggle("has-file", hasFile);
+        }
+
+        if (fileName) {
+            fileName.textContent = hasFile ? field.files[0].name : "No file selected";
+        }
     }
 
     function updateFormAlert(alertBox, fields) {
@@ -120,11 +153,13 @@
         const fields = Array.from(form.querySelectorAll("[data-error-target]"));
 
         updateImagePreview(form);
+        fields.forEach(updateFileSelection);
 
         fields.forEach((field) => {
             field.addEventListener("blur", function () {
                 validateField(field);
                 updateImagePreview(form);
+                updateFileSelection(field);
                 updateFormAlert(alertBox, fields);
             });
 
@@ -133,11 +168,20 @@
                     updateImagePreview(form);
                 }
 
+                updateFileSelection(field);
+
                 if (!field.classList.contains("input-error")) {
                     return;
                 }
 
                 validateField(field);
+                updateFormAlert(alertBox, fields);
+            });
+
+            field.addEventListener("change", function () {
+                validateField(field);
+                updateImagePreview(form);
+                updateFileSelection(field);
                 updateFormAlert(alertBox, fields);
             });
         });

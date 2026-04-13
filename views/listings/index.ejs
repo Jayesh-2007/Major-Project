@@ -1,5 +1,4 @@
 <% layout("layouts/boilerplatecode") %>
-    <%= success%>
 
         <section class="listings-page">
             <header class="listings-header">
@@ -18,7 +17,7 @@
                 <% for(let listing of listings) { %>
                     <article class="listing-card">
                         <a class="listing-card-image-link" href="/listings/<%= listing._id %>">
-                            <img class="listing-card-image" src="<%= listing.image %>" alt="<%= listing.title %>">
+                            <img class="listing-card-image" src="<%= listing.image.url %>" alt="<%= listing.title %>">
                         </a>
                         <h2 class="listing-card-title">
                             <a href="/listings/<%= listing._id %>">
