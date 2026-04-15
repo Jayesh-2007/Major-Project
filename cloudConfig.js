@@ -14,7 +14,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "listScope",
-    allowedFormats: ["png", "jpg", "jpeg"], // supports promises as well
+    allowed_formats: ["png", "jpg", "jpeg", "webp"],
   },
 });
 

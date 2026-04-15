@@ -16,6 +16,15 @@ const listingSchema = new schema({
   price: Number,
   location: String,
   country: String,
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+    },
+    coordinates: {
+      type: [Number],
+    },
+  },
   reviews: [
     {
       type: schema.Types.ObjectId,
@@ -27,6 +36,8 @@ const listingSchema = new schema({
     ref: "User",
   },
 });
+
+listingSchema.index({ geometry: "2dsphere" });
 
 listingSchema.post("findOneAndDelete", async (listing) => {
   if (listing) {

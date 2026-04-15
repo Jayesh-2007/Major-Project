@@ -1,4 +1,10 @@
 <% layout("layouts/boilerplatecode") %>
+<%
+    const mapQuery = [listing.location, listing.country].filter(Boolean).join(", ");
+    const hasCoordinates = listing.geometry && Array.isArray(listing.geometry.coordinates) && listing.geometry.coordinates.length === 2;
+    const longitude = hasCoordinates ? listing.geometry.coordinates[0] : null;
+    const latitude = hasCoordinates ? listing.geometry.coordinates[1] : null;
+%>
 
     <section class="listing-detail-page">
         <article class="listing-detail-card">
@@ -75,14 +81,14 @@
         </section>
         <% } %>
 
+            <% if (listing.reviews.length) { %>
             <section class="review-list-section">
-                <div class="review-list-header">
-                    <p class="review-list-kicker">Recent Stays</p>
-                    <h3 class="review-list-title">All Reviews</h3>
-                    <p class="review-list-subtitle">A quick look at what past guests noticed most.</p>
-                </div>
+                    <div class="review-list-header">
+                        <p class="review-list-kicker">Recent Stays</p>
+                        <h3 class="review-list-title">All Reviews</h3>
+                        <p class="review-list-subtitle">A quick look at what past guests noticed most.</p>
+                    </div>
 
-                <% if (listing.reviews.length) { %>
                     <div class="review-card-grid">
                         <% for (const review of listing.reviews) { %>
                             <article class="review-card">
@@ -109,7 +115,8 @@
                                                 Shared by a recent guest
                                                 <% } %>
                                 </p>
-                                <form class="review-delete-form" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                <form class="review-delete-form"
+                                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
                                     method="POST">
                                     <button class="review-delete-btn" type="submit">Delete Review</button>
                                 </form>
@@ -117,11 +124,75 @@
                             <% } %>
 
                     </div>
-                    <% } else { %>
-                        <div class="review-empty-state">
-                            <p class="review-empty-title">No reviews yet</p>
-                            <p class="review-empty-text">Be the first guest to share how this stay felt and what stood
-                                out.</p>
-                        </div>
-                        <% } %>
             </section>
+            <% } %>
+            <section class="listing-map-section">
+                <div class="listing-map-card">
+                    <div class="listing-map-header">
+                        <p class="listing-map-kicker">Area Preview</p>
+                        <h3 class="listing-map-title">Where this place is</h3>
+                    </div>
+
+                    <% if (mapQuery && hasCoordinates) { %>
+                        <div
+                            id="map"
+                            class="listing-map-frame"
+                            data-map-query="<%= mapQuery %>"
+                            data-map-title="<%= listing.title %>"
+                            data-map-latitude="<%= latitude %>"
+                            data-map-longitude="<%= longitude %>">
+                        </div>
+                        <p class="listing-map-caption"><%= mapQuery %></p>
+                    <% } else { %>
+                        <div class="listing-map-empty">Location details are not available for this listing yet.</div>
+                    <% } %>
+                </div>
+            </section>
+
+<% if (mapQuery && hasCoordinates) { %>
+    <script>
+        (function () {
+            const mapElement = document.getElementById("map");
+
+            if (!mapElement || typeof L === "undefined") {
+                return;
+            }
+
+            const mapQuery = mapElement.dataset.mapQuery;
+            const mapTitle = mapElement.dataset.mapTitle || "Listing location";
+            const latitude = Number(mapElement.dataset.mapLatitude);
+            const longitude = Number(mapElement.dataset.mapLongitude);
+
+            if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+                mapElement.classList.add("listing-map-unavailable");
+                return;
+            }
+
+            const map = L.map(mapElement, {
+                zoomControl: false,
+                scrollWheelZoom: false,
+            });
+
+            L.control.zoom({ position: "bottomright" }).addTo(map);
+
+            L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                subdomains: "abcd",
+                maxZoom: 20,
+            }).addTo(map);
+
+            map.setView([latitude, longitude], 11);
+
+            L.circleMarker([latitude, longitude], {
+                radius: 8,
+                color: "#171717",
+                weight: 2,
+                fillColor: "#ffffff",
+                fillOpacity: 0.95,
+            })
+                .addTo(map)
+                .bindPopup("<strong>" + mapTitle + "</strong><br>" + mapQuery)
+                .openPopup();
+        })();
+    </script>
+<% } %>
